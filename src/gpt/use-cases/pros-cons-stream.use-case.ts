@@ -4,11 +4,12 @@ interface Options {
   prompt: string;
 }
 
-export const prosConsDicusserUseCase = async (
+export const prosConsDicusserStreamUseCase = async (
   openai: OpenAI,
   { prompt }: Options,
 ) => {
-  const response = await openai.chat.completions.create({
+  return await openai.chat.completions.create({
+    stream: true,
     model: 'gpt-3.5-turbo',
     messages: [
       {
@@ -27,6 +28,4 @@ los pros y contras deben de estar en una lista,
     temperature: 0.8,
     max_tokens: 500,
   });
-
-  return response.choices[0].message;
 };
