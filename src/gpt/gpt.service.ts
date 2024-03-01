@@ -12,6 +12,7 @@ import {
   translateUseCase,
   textToAudioUseCase,
   audioToTextUseCase,
+  imageGenerationUseCase,
 } from './use-cases';
 import {
   OrthographyDto,
@@ -19,6 +20,7 @@ import {
   TranslateDto,
   TextToAudioDto,
   AudioToTextDto,
+  ImageGenerationDto,
 } from './dtos';
 
 @Injectable()
@@ -72,5 +74,20 @@ export class GptService {
     const { prompt } = audioToTextDto;
 
     return await audioToTextUseCase(this.openai, { audioFile, prompt });
+  }
+
+  async imageGeneration(imageGenerationDto: ImageGenerationDto) {
+    return await imageGenerationUseCase(this.openai, { ...imageGenerationDto });
+  }
+
+  getGeneratedImage(fileName: string) {
+    const filePath = path.resolve('./', './generated/images/', fileName);
+    const exists = fs.existsSync(filePath);
+
+    if (!exists) {
+      throw new NotFoundException('File not found');
+    }
+
+    return filePath;
   }
 }
