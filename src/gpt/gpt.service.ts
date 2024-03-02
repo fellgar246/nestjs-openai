@@ -13,6 +13,7 @@ import {
   textToAudioUseCase,
   audioToTextUseCase,
   imageGenerationUseCase,
+  imageVariationUseCase,
 } from './use-cases';
 import {
   OrthographyDto,
@@ -21,6 +22,7 @@ import {
   TextToAudioDto,
   AudioToTextDto,
   ImageGenerationDto,
+  ImageVariationDto,
 } from './dtos';
 
 @Injectable()
@@ -89,5 +91,9 @@ export class GptService {
     }
 
     return filePath;
+  }
+
+  async generateImageVariation({ baseImage }: ImageVariationDto) {
+    return imageVariationUseCase(this.openai, { baseImage });
   }
 }

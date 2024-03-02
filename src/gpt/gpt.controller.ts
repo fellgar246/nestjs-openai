@@ -23,6 +23,7 @@ import {
   TextToAudioDto,
   AudioToTextDto,
   ImageGenerationDto,
+  ImageVariationDto,
 } from './dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -132,5 +133,10 @@ export class GptController {
     const filePath = await this.gptService.getGeneratedImage(fileName);
     res.status(HttpStatus.OK);
     res.sendFile(filePath);
+  }
+
+  @Post('image-variation')
+  async imageVariation(@Body() imageVariationDto: ImageVariationDto) {
+    return await this.gptService.generateImageVariation(imageVariationDto);
   }
 }
